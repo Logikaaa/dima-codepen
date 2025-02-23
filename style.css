@@ -1,0 +1,117 @@
+.circuit {
+	--duration: 300ms;
+	--clr: black;
+	--wire-clr: black;
+	--wire-clr-on: rgb(14, 165, 233);
+	--wire-dashoffset: 400;
+	--wire-dasharray: 0 400;
+	--light-clr: transparent;
+	--light-clr-on: rgb(252, 211, 77);
+	--switch-clr: red;
+	--switch-clr-on: rgb(14, 165, 233);
+
+	position: relative;
+	width: 600px;
+	height: 300px;
+	color: var(--wire-clr-off);
+}
+.circuit > svg {
+	width: 100%;
+}
+svg > .switch,
+svg > .wire-path,
+svg > .battery,
+svg .lightbulb {
+	color: var(--clr);
+}
+/* wire  - animated */
+svg .animated-wire {
+	transition-property: stroke-dasharray, stroke-dashoffset;
+	transition-duration: 1000ms;
+	transition-timing-function: ease-in-out;
+	transition-delay: var(--wire-delay, 0ms);
+	color: var(--wire-clr);
+
+	stroke-dashoffset: var(--wire-dashoffset);
+	stroke-dasharray: var(--wire-dasharray);
+}
+
+svg > .switch > line {
+	color: var(--switch-clr);
+	transform: rotate(var(--switch-rotate, 0deg));
+	transform-origin: 120px 30px;
+	transition-property: transform, color;
+	transition-duration: var(--duration);
+	transition-timing-function: ease-in-out;
+	transition-delay: 0ms, var(--duration);
+}
+/* Bulb */
+svg > .lightbulb > circle {
+	transition: fill var(--duration) ease-in-out;
+	fill: var(--light-clr);
+	transition-delay: var(--light-delay, 0ms);
+}
+
+.circuit:has(input[type="checkbox"]:checked) {
+	--wire-clr: var(--wire-clr-on);
+	--wire-dashoffset: 0;
+	--wire-dasharray: 400 0;
+	--switch-clr: var(--wire-clr-on);
+	--switch-rotate: 24deg;
+	--wire-delay: var(--duration);
+	--light-clr: var(--light-clr-on);
+	--light-delay: var(--duration);
+}
+
+/* position invisible radio botton over the circuit "switch" */
+.circuit input[type="checkbox"] {
+	position: absolute;
+	left: 50%;
+	top: 3rem;
+	translate: -50% 0;
+	opacity: 0;
+	margin: 0;
+	padding: 0;
+	border: none;
+	outline: none;
+	scale: 8 6; /* scale to cover circuit switch */
+	cursor: pointer;
+	z-index: 3;
+}
+
+/* general styling */
+*,
+::before,
+::after {
+	box-sizing: border-box;
+}
+:root {
+	--clr-bg: rgb(214, 211, 209);
+	--clr-txt: white;
+	--clr-primary: #f5f5f5;
+	--clr-secondary: #075985;
+}
+html {
+	background-color: var(--clr-bg);
+	font-family: system-ui;
+}
+
+body {
+	min-height: 100svh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 1.5rem;
+	/*font-size: clamp(0.9rem, 2.5vw,1.4rem);*/
+	color: var(--clr-txt);
+	padding: 1rem;
+	margin: 0;
+	background-image: radial-gradient(
+		circle,
+		rgba(0, 208, 84, 1) 1px,
+		rgba(0, 0, 0, 0) 1px
+	);
+	background-size: 40px 40px;
+	background-attachment: fixed;
+}
